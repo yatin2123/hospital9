@@ -1,8 +1,40 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
+function Header({cart}) {
 
-function Header(props) {
+    console.log(cart);
+    // const [data, setData] = useState([]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await fetch("http://localhost:3004/medicines");
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok.');
+    //             }
+    //             const medisin = await response.json();
+    //             setData(medisin);
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
+   
+    // console.log(data);
+    const cartCount = cart.reduce((acc, v) => acc + v.qty, 0)
+    console.log(cartCount);
+
+    let qty = 0;
+    {
+        cart.map((v) => {
+            qty = qty + v.qty
+        })
+    }
     return (
         <div>
             <div>
@@ -13,6 +45,15 @@ function Header(props) {
                                 <i className="bi bi-envelope" /> <a href="mailto:contact@example.com">cityhospital@example.com</a>
                                 <i className="bi bi-phone" /> +91 9988776655
                             </div>
+
+                            <Link to={"/cart"}>
+                                <FavoriteIcon cartCount={cartCount} />
+                            </Link>
+
+
+
+                            <AddShoppingCartIcon />
+
                             <div className="d-none d-lg-flex social-links align-items-center">
                                 <a href="#" className="twitter"><i className="bi bi-twitter" /></a>
                                 <a href="#" className="facebook"><i className="bi bi-facebook" /></a>
@@ -38,6 +79,7 @@ function Header(props) {
                                     <li><NavLink className="nav-link scrollto" to="/doctor">Doctors</NavLink></li>
                                     <li><NavLink className="nav-link scrollto" to="/about">About</NavLink></li>
                                     <li><NavLink className="nav-link scrollto" to="/contact">Contact</NavLink></li>
+                                    <li><NavLink className="nav-link scrollto" to="/cart">Cart</NavLink></li>
                                 </ul>
                                 <i className="bi bi-list mobile-nav-toggle" />
                             </nav>

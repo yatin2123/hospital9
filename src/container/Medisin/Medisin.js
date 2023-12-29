@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 
-function Medisin(props) {
+function Medisin({cart, setCart}) {
+    
 
     const [data, setData] = useState([]);
 
@@ -23,6 +24,22 @@ function Medisin(props) {
         fetchData();
     }, []);
 
+    const handleaddtocart = (id) => {
+        console.log('yyyyyy');
+        const data = cart.find((v) => v.id === id)
+
+        if(data){
+            let cartData = [...cart];
+            let index = cartData.findIndex((v) => v.id === id);
+            // console.log(index);
+            cartData[index].qty++;
+            setCart(cartData)
+        }else{
+            setCart((prev) => [...prev,{id:id, qty:1}])
+        }
+    }
+    console.log(cart);
+
     return (
         <div>
             <section id="departments" className="departments">
@@ -30,8 +47,13 @@ function Medisin(props) {
                     <div className="section-title">
                         {
                             data.length > 0 ? (
-                                data.map((v, index) => (
-                                    <h1 key={index}>{v.price}</h1>
+                                data.map((v) => (
+                                    <>
+                                        <h1>{v.price}</h1>
+
+                                        <p>{v.name}</p>
+                                        <button onClick={() => handleaddtocart(v.id)}>Add to Cart</button>
+                                    </>
                                 ))
                             ) : (
                                 <p>No data available</p>
