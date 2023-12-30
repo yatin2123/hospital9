@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 
-function Header({cart}) {
+function Header({ cart }) {
 
     console.log(cart);
     // const [data, setData] = useState([]);
@@ -24,17 +27,26 @@ function Header({cart}) {
 
     //     fetchData();
     // }, []);
-   
+
     // console.log(data);
     const cartCount = cart.reduce((acc, v) => acc + v.qty, 0)
     console.log(cartCount);
 
-    let qty = 0;
-    {
-        cart.map((v) => {
-            qty = qty + v.qty
-        })
-    }
+    // let qty = 0;
+    // {
+    //     cart.map((v) => {
+    //         qty = qty + v.qty
+    //     })
+    // }
+
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        '& .MuiBadge-badge': {
+            right: -3,
+            top: 13,
+            border: `2px solid ${theme.palette.background.paper}`,
+            padding: '0 4px',
+        },
+    }));
     return (
         <div>
             <div>
@@ -45,14 +57,21 @@ function Header({cart}) {
                                 <i className="bi bi-envelope" /> <a href="mailto:contact@example.com">cityhospital@example.com</a>
                                 <i className="bi bi-phone" /> +91 9988776655
                             </div>
-
                             <Link to={"/cart"}>
-                                <FavoriteIcon cartCount={cartCount} />
+                                <IconButton aria-label="cart">
+                                    <StyledBadge badgeContent={cartCount} color="secondary">
+                                        <AddShoppingCartIcon />
+                                    </StyledBadge>
+                                </IconButton>
                             </Link>
+                            {/* 
+                            <Link to={"/cart"}>
+                                <FavoriteIcon  />
+                            </Link> */}
 
 
 
-                            <AddShoppingCartIcon />
+                            {/* <AddShoppingCartIcon cartCount={cartCount}/> */}
 
                             <div className="d-none d-lg-flex social-links align-items-center">
                                 <a href="#" className="twitter"><i className="bi bi-twitter" /></a>

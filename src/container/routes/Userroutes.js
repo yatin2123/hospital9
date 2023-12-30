@@ -27,7 +27,7 @@ function Userroutes(props) {
                 <Route exact path='/contact' element={<Contact/>} />
                 <Route exact path='/medisin' element={<Medisin cart={cart} setCart={setCart}/>} />
 
-                <Route exact path='/cart' element={<Cart/>} />
+                <Route exact path='/cart' element={<Cart  cart={cart} setCart={setCart}/>} />
             </Routes>
             <Footer/>
         </div>

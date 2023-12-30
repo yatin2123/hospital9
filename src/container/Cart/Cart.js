@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-function Cart(props) {
+function Cart({cart}) {
+
+    console.log(cart);
+
+    // const [counter, setCounter] = useState(0);
 
     const [data, setData] = useState([]);
 
@@ -23,22 +27,32 @@ function Cart(props) {
     console.log(data);
 
 
-    const cartData = data.map((v) => {
+    const cartData = cart.map((v) => {
         let med = data.find((m) => v.id == m.id)
         console.log(med);
 
         return { ...med, qty: v.qty }
 
     })
+    console.log(cartData);
 
     const handleIncre = (id) => {
         // console.log('yyyy');
-        console.log(id);
+        console.log(id); 
+      
+       let check = cart.find((v) => v.id === id)
+       console.log(check);
+
+       if(){
+        
+       }
+        
     }
 
     const handleDcre = (id) => {
         // console.log('uuuuu');
         console.log(id);
+        // setCounter(counter - 1);
     }
     return (
         <div>
@@ -67,13 +81,13 @@ function Cart(props) {
                                                                     </div>
                                                                     <div className="col-md-3 col-lg-3 col-xl-3">
                                                                         <h6 className="text-muted">{v.name}</h6>
-                                                                        <h6 className="text-black mb-0">{v.desc}</h6>
+                                                                        <h6 className="text-black mb-0">{v.price}</h6>
                                                                     </div>
                                                                     <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                                         <button  className="plus-btn" type="button" name="button"  onClick={() => handleDcre(v.id)}>
                                                                             -
                                                                         </button>
-                                                                        <input id="form1" min={0} name="quantity"  type="number" className="form-control form-control-sm" />
+                                                                        {v.price}
                                                                         <button  className="plus-btn" type="button" name="button"  onClick={() => handleIncre(v.id)}>
                                                                             +
                                                                         </button>
@@ -92,7 +106,7 @@ function Cart(props) {
                                                                     </div>
                                                                     <div className="col-md-3 col-lg-3 col-xl-3">
                                                                         <h6 className="text-muted">{v.name}</h6>
-                                                                        <h6 className="text-black mb-0">{v.desc}</h6>
+                                                                        <h6 className="text-black mb-0">{v.price}</h6>
                                                                     </div>
                                                                     <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                                         <button className="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">

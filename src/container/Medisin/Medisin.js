@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 
 function Medisin({cart, setCart}) {
-    
+    console.log(cart);
 
     const [data, setData] = useState([]);
 
@@ -38,7 +38,7 @@ function Medisin({cart, setCart}) {
             setCart((prev) => [...prev,{id:id, qty:1}])
         }
     }
-    console.log(cart);
+    // console.log(cart);
 
     return (
         <div>
