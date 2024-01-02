@@ -6,15 +6,23 @@ import Home from './container/Home/Home';
 import { Route, Routes } from 'react-router-dom';
 import Userroutes from './container/routes/Userroutes';
 import Adminroutes from './container/routes/Adminroutes';
+import { Provider } from 'react-redux';
+import { Store } from '@mui/icons-material';
+import { store } from './redux/store';
+
+
 
 function App() {
+  
   return (
     <>
-    <Routes>
-      <Route  exact path="/*" element={<Userroutes/>} />
-      <Route exact path="/admin/*" element={<Adminroutes/>} />
-    </Routes>
-    
+      <Provider store={store}>
+        <Routes>
+          <Route exact path="/*" element={<Userroutes />} />
+          <Route exact path="/admin/*" element={<Adminroutes />} />
+        </Routes>
+      </Provider>
+
     </>
   );
 }

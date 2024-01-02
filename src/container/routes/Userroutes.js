@@ -11,6 +11,7 @@ import Department from '../../container/Department/Department';
 import Footer from '../../component/Footer/Footer';
 import Medisin from '../Medisin/Medisin';
 import Cart from '../Cart/Cart';
+import Counter from '../Counter/Counter';
 
 function Userroutes(props) {
 
@@ -25,6 +26,8 @@ function Userroutes(props) {
                 <Route exact path='/doctor' element={<Doctor/>} />
                 <Route exact path='/department' element={<Department/>} />
                 <Route exact path='/contact' element={<Contact/>} />
+
+                <Route exact path='/counter' element={<Counter/>} />
                 <Route exact path='/medisin' element={<Medisin cart={cart} setCart={setCart}/>} />
 
                 <Route exact path='/cart' element={<Cart  cart={cart} setCart={setCart}/>} />

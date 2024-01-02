@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
 
-function Cart({cart}) {
+function Cart({ cart }) {
 
     console.log(cart);
 
-    // const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(0);
 
     const [data, setData] = useState([]);
 
+    const handletotal = () => {
+        let ans = 0;
+
+        cartData.map((v) => {
+            ans += v.qty * v.price
+        })
+        setCounter(ans)
+        console.log(ans);
+    }
+
+    const fetchData = async () => {
+
+        const response = await fetch("http://localhost:3004/medicines");
+
+        const medisin = await response.json();
+        console.log(medisin);
+        setData(medisin);
+
+    }
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("http://localhost:3004/medicines");
-                if (!response.ok) {
-                    throw new Error('Network response was not ok.');
-                }
-                const medisin = await response.json();
-                setData(medisin);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+        handletotal();
 
         fetchData();
     }, []);
@@ -38,16 +47,31 @@ function Cart({cart}) {
 
     const handleIncre = (id) => {
         // console.log('yyyy');
-        console.log(id); 
-      
-       let check = cart.find((v) => v.id === id)
-       console.log(check);
+        console.log(id);
 
-       if(){
+        let check = cartData.find((v) => v.id === id)
+        console.log(check);
+        // let res = cartData.indexOf(check)
+        // console.log(res);
+        //  return {...check, qty: qty++}
+
+        if (check) {
+            const data = {...check, qty: check.qty + 1};
+            const index = cartData.indexOf(check);
         
-       }
+            if (index === 0) {
+                cartData[index] = data;
+                console.log(data); // This will log the updated item
+                return data; // Returning the updated item
+            }
+        }
         
+
+        
+
     }
+
+
 
     const handleDcre = (id) => {
         // console.log('uuuuu');
@@ -72,7 +96,7 @@ function Cart({cart}) {
                                                             <div className="p-5">
                                                                 <div className="d-flex justify-content-between align-items-center mb-5">
                                                                     <h1 className="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                                                    <h6 className="mb-0 text-muted">2 items</h6>
+                                                                    <h6 className="mb-0 text-muted">3 items</h6>
                                                                 </div>
                                                                 <hr className="my-4" />
                                                                 <div className="row mb-4 d-flex justify-content-between align-items-center">
@@ -84,11 +108,11 @@ function Cart({cart}) {
                                                                         <h6 className="text-black mb-0">{v.price}</h6>
                                                                     </div>
                                                                     <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                        <button  className="plus-btn" type="button" name="button"  onClick={() => handleDcre(v.id)}>
+                                                                        <button className="plus-btn" type="button" name="button" onClick={() => handleDcre(v.id)}>
                                                                             -
                                                                         </button>
-                                                                        {v.price}
-                                                                        <button  className="plus-btn" type="button" name="button"  onClick={() => handleIncre(v.id)}>
+                                                                        {v.qty}
+                                                                        <button className="plus-btn" type="button" name="button" onClick={() => handleIncre(v.id)}>
                                                                             +
                                                                         </button>
                                                                     </div>
@@ -99,60 +123,8 @@ function Cart({cart}) {
                                                                         <a href="#!" className="text-muted"><i className="fas fa-times" /></a>
                                                                     </div>
                                                                 </div>
-                                                                <hr className="my-4" />
-                                                                <div className="row mb-4 d-flex justify-content-between align-items-center">
-                                                                    <div className="col-md-2 col-lg-2 col-xl-2">
-                                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img6.webp" className="img-fluid rounded-3" alt="Cotton T-shirt" />
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-3 col-xl-3">
-                                                                        <h6 className="text-muted">{v.name}</h6>
-                                                                        <h6 className="text-black mb-0">{v.price}</h6>
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                        <button className="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                                            <i className="fas fa-minus" />
-                                                                        </button>
-                                                                        <input id="form1" min={0} name="quantity" defaultValue={1} type="number" className="form-control form-control-sm" />
-                                                                        <button className="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                                            <i className="fas fa-plus" />
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                                        <h6 className="mb-0">{v.price}</h6>
-                                                                    </div>
-                                                                    <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                                        <a href="#!" className="text-muted"><i className="fas fa-times" /></a>
-                                                                    </div>
-                                                                </div>
-                                                                <hr className="my-4" />
-                                                                <div className="row mb-4 d-flex justify-content-between align-items-center">
-                                                                    <div className="col-md-2 col-lg-2 col-xl-2">
-                                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img7.webp" className="img-fluid rounded-3" alt="Cotton T-shirt" />
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-3 col-xl-3">
-                                                                        <h6 className="text-muted">Shirt</h6>
-                                                                        <h6 className="text-black mb-0">Cotton T-shirt</h6>
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                        <button className="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                                            <i className="fas fa-minus" />
-                                                                        </button>
-                                                                        <input id="form1" min={0} name="quantity" defaultValue={1} type="number" className="form-control form-control-sm" />
-                                                                        <button className="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                                            <i className="fas fa-plus" />
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                                        <h6 className="mb-0">{v.price}</h6>
-                                                                    </div>
-                                                                    <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                                        <a href="#!" className="text-muted"><i className="fas fa-times" /></a>
-                                                                    </div>
-                                                                </div>
-                                                                <hr className="my-4" />
-                                                                <div className="pt-5">
-                                                                    <h6 className="mb-0"><a href="#!" className="text-body"><i className="fas fa-long-arrow-alt-left me-2" />Back to shop</a></h6>
-                                                                </div>
+                                                                
+
                                                             </div>
                                                         </div>
                                                         <div className="col-lg-4 bg-grey">
@@ -182,7 +154,7 @@ function Cart({cart}) {
                                                                 <hr className="my-4" />
                                                                 <div className="d-flex justify-content-between mb-5">
                                                                     <h5 className="text-uppercase">Total price</h5>
-                                                                    <h5>€ 137.00</h5>
+                                                                    <h5>{v.counter}</h5>
                                                                 </div>
                                                                 <button type="button" className="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Register</button>
                                                             </div>
