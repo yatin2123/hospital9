@@ -5,7 +5,7 @@ import { Decrement, Increment } from '../../redux/action/counter.action';
 function Counter(props) {
 
     const counter = useSelector(state => state.counter)
-    console.log(counter);
+    // console.log(counter);
 
     const dispatch = useDispatch()
     const handleInc = () => {
@@ -18,7 +18,7 @@ function Counter(props) {
     return (
         <div>
             <button onClick={handleInc()}>+</button>
-            {counter.count}
+            
             <button onClick={handleDre()}>-</button>
         </div>
     );

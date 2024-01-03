@@ -2,7 +2,7 @@ import { COUNTER_DECREMENT, COUNTER_INCREMENT } from "../Actiontype";
 
 
 const initialValues = {
-    count : 0,
+    count : 0
 }
 
 export const counterReducer = (state = initialValues, action ) => {
