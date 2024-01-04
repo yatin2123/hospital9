@@ -1,4 +1,4 @@
-import { GET_MEDISIN } from "../Actiontype";
+import { GET_MEDISIN, POST_MEDISIN } from "../Actiontype";
 
 
 const initialState = {
@@ -10,14 +10,19 @@ const initialState = {
 export const medisinReducer = (state = initialState, action) => {
     console.log(action);
 
-    switch(action.type){
-            case GET_MEDISIN:
-                return {
-                    ...state,
-                    medisin: action.payload
-                }
-
-                default:
-                    return state
+    switch (action.type) {
+        case GET_MEDISIN:
+            return {
+                ...state,
+                medisin: action.payload
+            }
+    
+        case POST_MEDISIN:
+            return{
+                ...state,
+                medisin: state.medisin.concat(action.payload)
+            }
+        default:
+            return state
     }
 }

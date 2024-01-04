@@ -17,3 +17,12 @@ export const getRequest = (path) => {
         url: path
     })
 }
+
+export const postRequest = (path, data) => {
+    return sendRequest({
+        mathod: "POST",
+        url: path,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: data
+    })
+}
