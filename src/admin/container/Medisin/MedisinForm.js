@@ -10,15 +10,15 @@ import * as yup from 'yup'
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 
-function MedisinForm(props) {
+function MedisinForm( {onHandleSubmit, onupdate} ) {
     const [open, setOpen] = React.useState(false);
 
     useEffect(()=>{
-        // if(onupdte){
-        //     handleClickOpen();
-        //     setValues(onupdte)
-        // }
-    },[])
+        if(onupdate){
+            handleClickOpen();
+            setValues(onupdate)
+        }
+    },[onupdate])
 
 
     const handleClickOpen = () => {
@@ -52,7 +52,7 @@ function MedisinForm(props) {
         validationSchema: medisinesSchema,
         onSubmit: (values, action) => {
             console.log(values);
-            // onHandleSubmit(values)
+            onHandleSubmit(values)
 
             // if (updte) {
             //     // handleUpdate(values);
@@ -67,6 +67,8 @@ function MedisinForm(props) {
     })
 
     const { handleSubmit, handleChange, handleBlur, errors, values, touched, setValues } = formikobj;
+
+    // console.log(errors);
 
 
    return (

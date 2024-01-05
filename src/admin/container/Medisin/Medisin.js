@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { DataGrid } from '@mui/x-data-grid';
 import MedisinForm from './MedisinForm';
 import { DataGrid } from '@mui/x-data-grid';
-import { getmedisin, postmedisin } from '../../../redux/action/medisin.action';
+import { deletemedisin, getmedisin, postmedisin, updatemedisin } from '../../../redux/action/medisin.action';
 import { postRequest } from '../../../comman/request';
 import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 function Medisin(props) {
-    const [updte, setUpdate] = useState(false)
+    const [updte, setUpdate] = useState(true)
 
     const medisin = useSelector(state => state.medisin)
     console.log(medisin);
@@ -17,49 +19,36 @@ function Medisin(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // let localData = JSON.parse(localStorage.getItem("medisin"));
-        // if (localData) {
-        //     setMData(localData);
-        // }
         dispatch(getmedisin());
 
     }, [])
 
+  
+
     const handleFormSubmit = (data) => {
+        console.log(data);
 
-        dispatch(postmedisin(data))
+        if(updte){
+            dispatch(updatemedisin(data))
+        } else {
+            dispatch(postmedisin(data))
+        }
 
+      
 
-
-        // let localData = JSON.parse(localStorage.getItem("medisin"));
-        // // console.log(localData);
-        // let id = Math.floor(Math.random() * 1000)
-        // if (localData) {
-        //     if (updte) {
-        //         let localData = JSON.parse(localStorage.getItem("medisin"));
-
-        //         let index = localData.findIndex((v) => v.id == data.id)
-        //         console.log(index);
-
-        //         localData[index] = data;
-
-        //         localStorage.setItem("medisin", JSON.stringify(localData))
-        //         setMData(localData)
-
-        //         setUpdate(false)
-        //     } else {
-        //         localData.push({ id: id, ...data });
-        //         localStorage.setItem("medisin", JSON.stringify(localData))
-        //         setMData(localData)
-        //         // console.log(localData);
-        //     }
-
-        // } else {
-        //     localStorage.setItem("medisin", JSON.stringify([{ id, ...data }]))
-        //     setMData([{ id, ...data }]) 
-        // }
     }
 
+    const handleDelete = (id) => {
+        console.log(id);
+        dispatch(deletemedisin(id))
+
+    }
+
+    const handleEdit = (data) => {
+        setUpdate(data)
+        
+            // dispatch(updatemedisin(data))
+    }
 
     const columns = [
         { field: 'name', headerName: 'Name', width: 130 },
@@ -87,7 +76,7 @@ function Medisin(props) {
 
     return (
         <div>
-            <MedisinForm onHandleSubmit={handleFormSubmit} />
+            <MedisinForm onHandleSubmit={handleFormSubmit} onupdate={updte}/>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={medisin.medisin} 

@@ -13,16 +13,38 @@ export const sendRequest = (config) => {
 
 export const getRequest = (path) => {
     return sendRequest({
-        mathod: "GET",
+        method: "GET",
         url: path
     })
 }
 
 export const postRequest = (path, data) => {
+    console.log(path, data);
     return sendRequest({
-        mathod: "POST",
+        method: "POST",
         url: path,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'content-type': 'application/json' },
         data: data
     })
 }
+
+export const deleteRequest = (path, id) => {
+    console.log(path, id);
+    return sendRequest({
+        method: "DELETE",
+        url: path + id,
+       
+    })
+}
+
+export const updateRequest = (path, data) => {
+    console.log(path, data);
+    return sendRequest({
+        method: "PUT",
+        url: path + data.id,
+        headers: { 'content-type': 'application/json' },
+        data: data
+       
+    })
+}
+
