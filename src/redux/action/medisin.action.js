@@ -1,11 +1,25 @@
 import { deleteAllMedisinAPI, getAllMedisinAPI, postAllMedisinAPI, updateAllMedisinAPI } from "../../comman/api/medisin.api"
-import { DELETE_MEDISIN, GET_MEDISIN, POST_MEDISIN, UPDATE_MEDESIN } from "../Actiontype"
+import { DELETE_MEDISIN, ERROR_MEDESIN, GET_MEDISIN, LODING_MEDESIN, POST_MEDISIN, UPDATE_MEDESIN } from "../Actiontype"
+
+
+const lodingmedisin = () => (dispatch) => {
+    dispatch({type: LODING_MEDESIN})
+}
+
+const errormedisin = (error) => (dispatch) => {
+    console.log(error);
+    dispatch({type: ERROR_MEDESIN, payload: error})
+}
 
 export const getmedisin = () => (dispatch) => {
+    dispatch(lodingmedisin())
 
-    getAllMedisinAPI()
+    
+    setTimeout(function() {
+        getAllMedisinAPI()
         .then((response) => dispatch({type: GET_MEDISIN, payload: response.data}))
-
+        .catch((error) => dispatch(errormedisin(error)))
+    }, 2000)
 }
 
 export const postmedisin = (data) => (dispatch) => {

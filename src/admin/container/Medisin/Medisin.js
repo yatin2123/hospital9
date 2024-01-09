@@ -8,12 +8,14 @@ import { postRequest } from '../../../comman/request';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function Medisin(props) {
     const [updte, setUpdate] = useState(true)
 
     const medisin = useSelector(state => state.medisin)
-    console.log(medisin);
+    console.log(medisin.error);
 
 
     const dispatch = useDispatch()
@@ -23,18 +25,16 @@ function Medisin(props) {
 
     }, [])
 
-  
+
 
     const handleFormSubmit = (data) => {
         console.log(data);
 
-        if(updte){
+        if (updte) {
             dispatch(updatemedisin(data))
         } else {
             dispatch(postmedisin(data))
         }
-
-      
 
     }
 
@@ -46,8 +46,8 @@ function Medisin(props) {
 
     const handleEdit = (data) => {
         setUpdate(data)
-        
-            // dispatch(updatemedisin(data))
+
+        // dispatch(updatemedisin(data))
     }
 
     const columns = [
@@ -76,20 +76,33 @@ function Medisin(props) {
 
     return (
         <div>
-            <MedisinForm onHandleSubmit={handleFormSubmit} onupdate={updte}/>
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    rows={medisin.medisin} 
-                    columns={columns} 
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                />
-            </div>
+            {
+                medisin.isLoding ?
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box> :
+
+                    medisin.error ? <p>{medisin.error.message}</p> :
+
+                    <>
+                        <MedisinForm onHandleSubmit={handleFormSubmit} onupdate={updte} />
+                        <div style={{ height: 400, width: '100%' }}>
+                            <DataGrid
+                                rows={medisin.medisin}
+                                columns={columns}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: { page: 0, pageSize: 5 },
+                                    },
+                                }}
+                                pageSizeOptions={[5, 10]}
+                                checkboxSelection
+                            />
+                        </div>
+                    </>
+
+            }
+
         </div>
     );
 }

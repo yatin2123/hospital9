@@ -1,4 +1,4 @@
-import { DELETE_MEDISIN, GET_MEDISIN, POST_MEDISIN, UPDATE_MEDESIN } from "../Actiontype";
+import { DELETE_MEDISIN, ERROR_MEDESIN, GET_MEDISIN, LODING_MEDESIN, POST_MEDISIN, UPDATE_MEDESIN } from "../Actiontype";
 
 
 const initialState = {
@@ -11,26 +11,42 @@ export const medisinReducer = (state = initialState, action) => {
     console.log(action);
 
     switch (action.type) {
+
+        case LODING_MEDESIN:
+            return {
+                isLoding: true,
+                medisin: [],
+                error: null
+            }
+        
+        case ERROR_MEDESIN:
+            return{
+                isLoding: false,
+                medisin: [],
+                error: action.payload
+            }
+
         case GET_MEDISIN:
             return {
-                ...state,
-                medisin: action.payload
+                isLoding: false,
+                medisin: action.payload,
+                error: null,
             }
-    
+
         case POST_MEDISIN:
-            return{
+            return {
                 ...state,
                 medisin: state.medisin.concat(action.payload)
             }
 
-        case DELETE_MEDISIN: 
-            return{
+        case DELETE_MEDISIN:
+            return {
                 ...state,
-                medisin : state.medisin.filter((v) => v.id !== action.payload)
+                medisin: state.medisin.filter((v) => v.id !== action.payload)
             }
 
         case UPDATE_MEDESIN:
-            return{
+            return {
                 ...state,
                 medisin: state.medisin.map((v) => {
                     if (v.id === action.payload.id) {

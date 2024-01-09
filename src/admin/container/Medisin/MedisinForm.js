@@ -59,6 +59,7 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
             // } else {
             //     Tabledata(values)
             // }
+            
 
             action.resetForm();
             handleClose();
