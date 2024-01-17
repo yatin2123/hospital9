@@ -9,17 +9,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup'
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
+import { addMedisin } from '../../../redux/slice/medisin.slice';
 
 function MedisinForm( {onHandleSubmit, onupdate} ) {
     const [open, setOpen] = React.useState(false);
-
-    useEffect(()=>{
-        if(onupdate){
-            handleClickOpen();
-            setValues(onupdate)
-        }
-    },[onupdate])
-
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -28,6 +21,13 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    useEffect(()=>{
+        if(onupdate){
+            handleClickOpen();
+            setValues(onupdate)
+        }
+    },[onupdate])
 
     var d = new Date();
     let nd = Date(d.setDate(d.getDate() - 1))
@@ -46,7 +46,6 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
             name: '',
             price: '',
             date: '',
-
         },
 
         validationSchema: medisinesSchema,
@@ -59,7 +58,6 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
             // } else {
             //     Tabledata(values)
             // }
-            
 
             action.resetForm();
             handleClose();
@@ -77,7 +75,7 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Open form dialog
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
                 <DialogTitle>Subscribe</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -85,7 +83,6 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
                         will send updates occasionally.
                     </DialogContentText>
                     <TextField
-
                         margin="dense"
                         id="name"
                         name="name"
@@ -130,7 +127,7 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleSubmit}>add</Button>
                 </DialogActions>
             </Dialog>
         </div>

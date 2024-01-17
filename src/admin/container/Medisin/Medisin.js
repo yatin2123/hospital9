@@ -10,12 +10,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { addMedisin } from '../../../redux/slice/medisin.slice';
 
 function Medisin(props) {
-    const [updte, setUpdate] = useState(true)
+    const [updte, setUpdate] = useState(false)
 
     const medisin = useSelector(state => state.medisin)
-    console.log(medisin.error);
+    console.log(medisin.medisin);
 
 
     const dispatch = useDispatch()
@@ -33,7 +34,9 @@ function Medisin(props) {
         if (updte) {
             dispatch(updatemedisin(data))
         } else {
-            dispatch(postmedisin(data))
+            // dispatch(postmedisin(data))
+
+            dispatch(addMedisin(data))
         }
 
     }

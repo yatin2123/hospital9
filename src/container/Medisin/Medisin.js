@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getmedisin } from '../../redux/action/medisin.action';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-function Medisin({ cart, setCart }) {
+function Medisin({ cart, setCart, fav, setFav }) {
     console.log(cart);
+    console.log(fav);
 
     const [data, setData] = useState([]);
 
@@ -13,7 +15,7 @@ function Medisin({ cart, setCart }) {
 
     const medisin = useSelector(state => state.medisin)
     console.log(medisin.medisin);
-    
+
     useEffect(() => {
         dispatch(getmedisin())
         // const fetchData = async () => {
@@ -35,6 +37,7 @@ function Medisin({ cart, setCart }) {
     const handleaddtocart = (id) => {
         console.log('yyyyyy');
         const data = cart.find((v) => v.id === id)
+        console.log(data);
 
         if (data) {
             let cartData = [...cart];
@@ -48,29 +51,45 @@ function Medisin({ cart, setCart }) {
     }
     // console.log(cart);
 
+    const handlefav = (id) => {
+        console.log('uuuuuuuuuuuuuuuuuu');
+        console.log(id);
+
+        if (fav) {
+            let fdata = fav.filter((v) => v.id !== id)
+            console.log(fdata);
+            setFav(fdata)
+        } else {
+            setFav((pre) => [...pre, { id: id }])
+        }
+    }
+    console.log(fav);
+
     return (
         <div>
             <section id="departments" className="departments">
                 <div className="container">
                     <div className="section-title">
-                        
-                            <div className='col-md-8'>
-                                {
-                                    medisin.medisin.length > 0 ? (
-                                        medisin.medisin.map((v) => (
-                                            <>
-                                                <h1>{v.price}</h1>
 
-                                                <p>{v.name}</p>
-                                                <button onClick={() => handleaddtocart(v.id)}>Add to Cart</button>
-                                            </>
-                                        ))
-                                    ) : (
-                                        <p>No data available</p>
-                                    )
-                                }
-                            </div>
-                      
+                        <div className='col-md-8'>
+                            <br></br> <br></br> <br></br>
+                            {
+                                medisin.medisin.length > 0 ? (
+                                    medisin.medisin.map((v) => (
+                                        <>
+                                            <h1>{v.price}</h1>
+
+                                            <p>{v.name}</p>
+                                            <button onClick={() => handlefav(v.id)}><FavoriteIcon /></button>
+                                            <button onClick={() => handleaddtocart(v.id)}>Add to Cart</button>
+                                        </>
+                                    ))
+                                ) : (
+                                    <p>No data available</p>
+                                )
+                            }
+                        </div>
+
                     </div>
                 </div>
             </section>

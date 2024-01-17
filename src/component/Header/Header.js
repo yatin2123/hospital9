@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import  FavoriteIcon from '@mui/icons-material/Favorite';
 
-function Header({ cart }) {
+function Header({ cart, fav }) {
 
     console.log(cart);
+    console.log(fav);
     // const [data, setData] = useState([]);
 
     // useEffect(() => {
@@ -32,12 +34,8 @@ function Header({ cart }) {
     const cartCount = cart.reduce((acc, v) => acc + v.qty, 0)
     console.log(cartCount);
 
-    // let qty = 0;
-    // {
-    //     cart.map((v) => {
-    //         qty = qty + v.qty
-    //     })
-    // }
+
+
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -64,6 +62,13 @@ function Header({ cart }) {
                                     </StyledBadge>
                                 </IconButton>
                             </Link>
+
+
+                            <IconButton aria-label="cart">
+                                    <StyledBadge badgeContent={cartCount} color="secondary">
+                                        <FavoriteIcon />
+                                    </StyledBadge>
+                                </IconButton>
                             {/* 
                             <Link to={"/cart"}>
                                 <FavoriteIcon  />
@@ -101,6 +106,7 @@ function Header({ cart }) {
                                     <li><NavLink className="nav-link scrollto" to="/about">About</NavLink></li>
                                     <li><NavLink className="nav-link scrollto" to="/contact">Contact</NavLink></li>
                                     <li><NavLink className="nav-link scrollto" to="/cart">Cart</NavLink></li>
+                                    <li><NavLink className="nav-link scrollto" to="/list">List</NavLink></li>
                                 </ul>
                                 <i className="bi bi-list mobile-nav-toggle" />
                             </nav>

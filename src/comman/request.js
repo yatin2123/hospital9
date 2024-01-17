@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/baseURL";
+// import { BASE_URL } from "../utils/baseURL";
 
 
 const instance = axios.create({
@@ -12,6 +13,7 @@ export const sendRequest = (config) => {
 }
 
 export const getRequest = (path) => {
+    console.log(path);
     return sendRequest({
         method: "GET",
         url: path

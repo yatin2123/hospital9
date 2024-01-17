@@ -12,10 +12,13 @@ import Footer from '../../component/Footer/Footer';
 import Medisin from '../Medisin/Medisin';
 import Cart from '../Cart/Cart';
 import Counter from '../Counter/Counter';
+import List from '../List/List';
+
 
 function Userroutes(props) {
 
     const [cart, setCart] = useState([])
+    const [fav, setFav] = useState([])
     return (
         <div>
             <Header  cart={cart}/>
@@ -28,9 +31,11 @@ function Userroutes(props) {
                 <Route exact path='/contact' element={<Contact/>} />
 
                 <Route exact path='/counter' element={<Counter/>} />
-                <Route exact path='/medisin' element={<Medisin cart={cart} setCart={setCart}/>} />
+                <Route exact path='/medisin' element={<Medisin cart={cart} setCart={setCart} fav={fav} setFav={setFav}/>} />
 
                 <Route exact path='/cart' element={<Cart  cart={cart} setCart={setCart}/>} />
+
+                <Route exact path='/list' element={<List fav={fav} setFav={setFav}/>} />
             </Routes>
             <Footer/>
         </div>

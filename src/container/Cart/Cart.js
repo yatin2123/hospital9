@@ -65,9 +65,6 @@ function Cart({ cart }) {
                 return data; // Returning the updated item
             }
         }
-        
-
-        
 
     }
 
