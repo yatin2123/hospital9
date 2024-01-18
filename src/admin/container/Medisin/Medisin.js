@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { DataGrid } from '@mui/x-data-grid';
 import MedisinForm from './MedisinForm';
 import { DataGrid } from '@mui/x-data-grid';
-import { deletemedisin, getmedisin, postmedisin, updatemedisin } from '../../../redux/action/medisin.action';
+
 import { postRequest } from '../../../comman/request';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { addMedisin } from '../../../redux/slice/medisin.slice';
+import { addMedisin, deleteMedisin, getMedisin, updateMedisin } from '../../../redux/slice/medisin.slice';
 
 function Medisin(props) {
     const [updte, setUpdate] = useState(false)
@@ -22,7 +22,7 @@ function Medisin(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getmedisin());
+        dispatch(getMedisin());
 
     }, [])
 
@@ -32,7 +32,7 @@ function Medisin(props) {
         console.log(data);
 
         if (updte) {
-            dispatch(updatemedisin(data))
+            dispatch(updateMedisin(data))
         } else {
             // dispatch(postmedisin(data))
 
@@ -43,7 +43,7 @@ function Medisin(props) {
 
     const handleDelete = (id) => {
         console.log(id);
-        dispatch(deletemedisin(id))
+        dispatch(deleteMedisin(id))
 
     }
 
