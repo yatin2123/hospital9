@@ -41,9 +41,10 @@ function Medisin(props) {
 
     }
 
-    const handleDelete = (id) => {
-        console.log(id);
-        dispatch(deleteMedisin(id))
+    const handleDelete = (data) => {
+        console.log(data);
+        dispatch(deleteMedisin(data
+            ))
 
     }
 
@@ -57,6 +58,13 @@ function Medisin(props) {
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'date', headerName: 'date', width: 130 },
+        { field: 'file', headerName: 'image', width: 130 ,
+        renderCell: (params) => {
+            return (
+                <img height={'100px'}   src={(params.row.file)}/>
+            )
+        }
+    },
         {
             field: 'Action', headerName: 'Action',
 
@@ -66,7 +74,7 @@ function Medisin(props) {
                         <EditIcon />
                     </IconButton>
 
-                    <IconButton aria-label="delete" onClick={() => handleDelete(params.row.id)}>
+                    <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
                         <DeleteIcon />
                     </IconButton>
                 </>

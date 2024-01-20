@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { deleteObject, getDownloadURL, getMetadata, getStorage, ref, uploadBytes } from "firebase/storage";
+
+import { db, storage } from "../../firebase"
 
 
 
@@ -34,13 +36,36 @@ export const addMedisin = createAsyncThunk(
     'medisin/add',
 
     async (data) => {
-        try {
-            const docRef = await addDoc(collection(db, "medisin"), data);
-            console.log("Document written with ID: ", docRef.id);
-            return { id: docRef.id, ...data }
-        } catch (e) {
-            console.error("Error adding document: ", e);
-        }
+        console.log(data);
+
+        const rno = Math.floor(Math.random() * 100000);
+        const storageRef = ref(storage, 'medisin/' + rno + "_" + data.file.name);
+        let medisindata = { ...data };
+        console.log(medisindata);
+
+        await uploadBytes(storageRef, data.file).then(async (snapshot) => {
+
+            await getDownloadURL(snapshot.ref)
+                .then(async (url) => {
+                    console.log(url);
+
+
+                    let aptdoc = await addDoc(collection(db, "medisin"), { ...data, file: url, file_name: rno + '_' + data.file.name });
+                    console.log('aaaaaaaaaaaaaaaaa', aptdoc.id);
+
+                    medisindata = { id: aptdoc.id, ...data, file: url, file_name: rno + '_' + data.file.name }
+                })
+        }).catch((e) => console.log(e))
+
+
+        return medisindata;
+        // try {
+        //     const docRef = await addDoc(collection(db, "medisin"), data);
+        //     console.log("Document written with ID: ", docRef.id);
+        //     return { id: docRef.id, ...data }
+        // } catch (e) {
+        //     console.error("Error adding document: ", e);
+        // }
 
     }
 )
@@ -48,10 +73,19 @@ export const addMedisin = createAsyncThunk(
 export const deleteMedisin = createAsyncThunk(
     'medisin/delete',
 
-    async (id) => {
-        await deleteDoc(doc(db, "medisin", id));
+    async (data) => {
+        console.log(data);
 
-        return id;
+        const medisinRef = ref(storage, "medisin/" + data.file_name);
+
+        // Delete the file
+        await deleteObject(medisinRef).then(async (data) => {
+            await deleteDoc(doc(db, "medisin", data.id));
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        return data.id;
     }
 
 )
@@ -62,23 +96,54 @@ export const updateMedisin = createAsyncThunk(
 
     async (data) => {
         console.log(data);
+        let newData = []
 
-        const medisinRef = doc(db, "medisin", data.id);
+        if (typeof data.file === 'string') {
+            const medisinRef = doc(db, "medisin", data.id);
 
-        let newData = {...data};
-        delete newData.id;
-        await updateDoc(medisinRef, newData);
+            let newData = { ...data };
+            delete newData.id;
+            await updateDoc(medisinRef, newData);
+        } else {
+            const medisinRef = ref(storage, "medisin/" + data.file_name);
 
-        return data
+            // Delete the file
+            await deleteObject(medisinRef).then(async (data) => {
+                const rno = Math.floor(Math.random() * 100000);
+                const storageRef = ref(storage, 'medisin/' + rno + "_" + data.file.name);
+
+                await uploadBytes(storageRef, data.file).then(async (snapshot) => {
+
+                    await getDownloadURL(snapshot.ref)
+                        .then(async (url) => {
+                            console.log(url);
+                            const medisinRef = doc(db, "medisin", data.id);
+
+                             newData = { ...data, file: url, file_name:  rno + "_" + data.file.name};
+                            delete newData.id;
+                            await updateDoc(medisinRef, newData);
+                            newData.id = data.id
+                        })
+                })
+            })
+        }
+
+        // const medisinRef = doc(db, "medisin", data.id);
+
+        // let newData = { ...data };
+        // delete newData.id;
+        // await updateDoc(medisinRef, newData);
+
+        return newData
     }
 )
 
-const handleLoding =  (state, action) => {
+const handleLoding = (state, action) => {
     state.isLoding = true;
     state.error = null
 }
 
-const dandleError = (state, action) => {
+const handleError = (state, action) => {
     state.isLoding = false;
     state.error = action.payload;
 }
@@ -95,7 +160,7 @@ export const medisinSlice = createSlice({
             state.medisin = state.medisin.concat(action.payload);
             state.error = null;
         })
-        builder.addCase(addMedisin.rejected, dandleError)
+        builder.addCase(addMedisin.rejected, handleError)
 
         builder.addCase(getMedisin.pending, handleLoding)
         builder.addCase(getMedisin.fulfilled, (state, action) => {
@@ -104,7 +169,7 @@ export const medisinSlice = createSlice({
             state.medisin = action.payload;
             state.error = null;
         })
-        builder.addCase(getMedisin.rejected, dandleError)
+        builder.addCase(getMedisin.rejected, handleError)
 
         builder.addCase(deleteMedisin.fulfilled, (state, action) => {
             state.isLoding = false;;
@@ -115,7 +180,7 @@ export const medisinSlice = createSlice({
         builder.addCase(updateMedisin.fulfilled, (state, action) => {
             state.isLoding = false;;
             state.medisin = state.medisin.map((v) => {
-                if(v.id === action.payload.id) {
+                if (v.id === action.payload.id) {
                     return action.payload
                 } else {
                     return v

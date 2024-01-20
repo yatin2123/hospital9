@@ -11,7 +11,7 @@ import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { addMedisin } from '../../../redux/slice/medisin.slice';
 
-function MedisinForm( {onHandleSubmit, onupdate} ) {
+function MedisinForm({ onHandleSubmit, onupdate }) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -22,17 +22,18 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
         setOpen(false);
     };
 
-    useEffect(()=>{
-        if(onupdate){
+    useEffect(() => {
+        if (onupdate) {
             handleClickOpen();
             setValues(onupdate)
         }
-    },[onupdate])
+    }, [onupdate])
 
     var d = new Date();
     let nd = Date(d.setDate(d.getDate() - 1))
 
     let medisinesSchema = yup.object().shape({
+        file: yup.string(),
         name: yup.string().required("please enter name"),
         price: yup.number().required("please enter price"),
 
@@ -46,6 +47,7 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
             name: '',
             price: '',
             date: '',
+            file: ''
         },
 
         validationSchema: medisinesSchema,
@@ -65,12 +67,12 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
 
     })
 
-    const { handleSubmit, handleChange, handleBlur, errors, values, touched, setValues } = formikobj;
+    const { handleSubmit, handleChange, handleBlur, errors, values, touched, setValues ,setFieldValue} = formikobj;
 
     // console.log(errors);
 
 
-   return (
+    return (
         <div>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Open form dialog
@@ -82,6 +84,17 @@ function MedisinForm( {onHandleSubmit, onupdate} ) {
                         To subscribe to this website, please enter your email address here. We
                         will send updates occasionally.
                     </DialogContentText>
+                    <input
+                        type="file"
+                        name="file"
+                        onChange={(event) => setFieldValue("file", event.target.files[0])}
+
+                    />
+                    <img
+                        src={typeof values.file === 'string' ? values.file : URL.createObjectURL(values.file)}
+                        width={"50px"}
+                        height={"50px"}
+                    />
                     <TextField
                         margin="dense"
                         id="name"
