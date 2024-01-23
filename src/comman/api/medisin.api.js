@@ -18,3 +18,4 @@ export const updateAllMedisinAPI = (data) => {
     console.log(data);
     return updateRequest("medicines", data)
 }
+

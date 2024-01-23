@@ -5,7 +5,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import  FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function Header({ cart, fav }) {
 
@@ -65,10 +65,10 @@ function Header({ cart, fav }) {
 
 
                             <IconButton aria-label="cart">
-                                    <StyledBadge badgeContent={cartCount} color="secondary">
-                                        <FavoriteIcon />
-                                    </StyledBadge>
-                                </IconButton>
+                                <StyledBadge badgeContent={cartCount} color="secondary">
+                                    <FavoriteIcon />
+                                </StyledBadge>
+                            </IconButton>
                             {/* 
                             <Link to={"/cart"}>
                                 <FavoriteIcon  />
@@ -112,6 +112,10 @@ function Header({ cart, fav }) {
                             </nav>
                             <a href="./appointment.html" className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an</span>
                                 Appointment</a>
+                            <NavLink to="/auth" className="appointment-btn scrollto">
+                                <span className="d-none d-md-inline">Login/ Signup</span>
+                            </NavLink>
+
                         </div>
                     </header>
                 </div>

@@ -13,6 +13,7 @@ import Medisin from '../Medisin/Medisin';
 import Cart from '../Cart/Cart';
 import Counter from '../Counter/Counter';
 import List from '../List/List';
+import Auth from '../Auth/Auth';
 
 
 function Userroutes(props) {
@@ -36,6 +37,8 @@ function Userroutes(props) {
                 <Route exact path='/cart' element={<Cart  cart={cart} setCart={setCart}/>} />
 
                 <Route exact path='/list' element={<List fav={fav} setFav={setFav}/>} />
+
+                <Route exact path='/auth' element={<Auth />} />
             </Routes>
             <Footer/>
         </div>
