@@ -3,6 +3,7 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { FORGET_REQWEST, LODIN_REQWEST, SIGNUP_REQWEST } from '../Actiontype'
 import { forgetAPI, loginAPI, signupAPI } from '../../comman/api/auth.api';
+import { loggeduser } from '../action/auth.action';
 
 
 
@@ -22,7 +23,8 @@ function* signup(action) {
 function* login(action) {
   try {
     const user = yield call(loginAPI, action.payload)
-    // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    console.log(user);
+    yield put(loggeduser(user.user))
   } catch (e) {
     console.log(e);
     // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
