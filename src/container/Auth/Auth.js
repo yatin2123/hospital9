@@ -9,10 +9,13 @@ import { useFormik } from 'formik';
 // import { forgetReqwest, loginReqwest, signupReqwest, signupreqwest } from '../../reducx/action/auth.action';
 import { useDispatch } from 'react-redux';
 import { forgetReqwest, loginReqwest, signupReqwest } from '../../redux/action/auth.action';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function Auth(props) {
 
     const [type, setType] = useState('login')
+
+    const navigate = useNavigate()
 
     let authobj, inival;
     if (type === 'login') {
@@ -78,7 +81,12 @@ function Auth(props) {
         validationSchema: authSchema,
         onSubmit: values => {
             if(type === 'login'){
-                dispatch(loginReqwest(values))
+                dispatch(loginReqwest({
+                    data: values,
+                    callback: (route) => {
+                        navigate(route)
+                    }
+                }))
             } else if(type === 'signup'){
                 dispatch(signupReqwest(values))
             } else {

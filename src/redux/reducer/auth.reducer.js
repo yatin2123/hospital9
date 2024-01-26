@@ -1,10 +1,10 @@
 
-import { LOGGED_USER } from "../Actiontype"
+import { LOGGED_USER, LOGOUT_USER } from "../Actiontype"
 
 
 const initialState = {
     isLoding: false,
-    user: [],
+    user: null,
     erroe: null
 }
 
@@ -15,6 +15,13 @@ export const authReducer = (state = initialState, action) => {
             return {
                 isLoding: false,
                 user: action.payload,
+                erroe: null
+            }
+
+        case LOGOUT_USER:
+            return {
+                isLoding: false,
+                user: null,
                 erroe: null
             }
         default:

@@ -1,4 +1,4 @@
-import { FORGET_REQWEST, LODIN_REQWEST, LOGGED_USER, SIGNUP_REQWEST } from "../Actiontype"
+import { FORGET_REQWEST, LODIN_REQWEST, LOGGEDREQWEST_USER, LOGGED_USER, LOGOUT_USER, SIGNUP_REQWEST } from "../Actiontype"
 
 
 
@@ -17,3 +17,12 @@ export const forgetReqwest = (data) => (dispatch) => {
 export const loggeduser = (data) => (dispatch) => {
     dispatch({type: LOGGED_USER, payload: data})
 }
+
+export const logoutReqwest = () => (dispatch) => {
+    dispatch({type: LOGOUT_USER})
+}
+
+export const loggeduserReqwest = () => (dispatch) => {
+    dispatch({type: LOGGEDREQWEST_USER})
+}
+

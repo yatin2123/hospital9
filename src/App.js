@@ -8,7 +8,8 @@ import Userroutes from './container/routes/Userroutes';
 import Adminroutes from './container/routes/Adminroutes';
 import { Provider } from 'react-redux';
 import { Store } from '@mui/icons-material';
-import { store } from './redux/store';
+import { persistor, store } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react'
 
 
 
@@ -17,10 +18,12 @@ function App() {
   return (
     <>
       <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <Routes>
           <Route exact path="/*" element={<Userroutes />} />
           <Route exact path="/admin/*" element={<Adminroutes />} />
         </Routes>
+        </PersistGate>
       </Provider>
 
     </>

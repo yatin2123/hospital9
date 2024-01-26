@@ -6,11 +6,13 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useDispatch, useSelector } from 'react-redux';
+import { loggeduserReqwest, logoutReqwest } from '../../redux/action/auth.action';
 
 function Header({ cart, fav }) {
 
     console.log(cart);
-    console.log(fav);
+    // console.log(fav);
     // const [data, setData] = useState([]);
 
     // useEffect(() => {
@@ -35,7 +37,15 @@ function Header({ cart, fav }) {
     console.log(cartCount);
 
 
+    const auth = useSelector(state => state.auth)
+    console.log(auth);
 
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        console.log('rrrrrrrrrrrrrrrrrrr');
+        dispatch(logoutReqwest())
+    }
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -112,10 +122,15 @@ function Header({ cart, fav }) {
                             </nav>
                             <a href="./appointment.html" className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an</span>
                                 Appointment</a>
-                            <NavLink to="/auth" className="appointment-btn scrollto">
-                                <span className="d-none d-md-inline">Login/ Signup</span>
-                            </NavLink>
-
+                            {
+                                auth.user ?
+                                    <NavLink to="/" className="appointment-btn scrollto" onClick={() => handleLogout()}>
+                                        <span className="d-none d-md-inline">Logout</span>
+                                    </NavLink> :
+                                    <NavLink to="/auth" className="appointment-btn scrollto">
+                                        <span className="d-none d-md-inline">Login/ Signup</span>
+                                    </NavLink>
+                            }
                         </div>
                     </header>
                 </div>
