@@ -4,6 +4,7 @@ import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { FORGET_REQWEST, LODIN_REQWEST, LOGGEDREQWEST_USER, LOGOUT_USER, SIGNUP_REQWEST } from '../Actiontype'
 import { forgetAPI, loginAPI, logoutAPI, signupAPI } from '../../comman/api/auth.api';
 import { loggeduser, loggeduserReqwest, logoutReqwest } from '../action/auth.action';
+import { setAlert } from '../slice/alert.slice';
 
 
 
@@ -24,20 +25,21 @@ function* login(action) {
   try {
     const user = yield call(loginAPI, action.payload.data)
     action.payload.callback("/")
-    yield put(loggeduser(user.user))
+    yield put(loggeduser(user.user));
+    yield put(setAlert({text: user.message, color: 'success'}))
   } catch (e) {
-    console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+  
+    yield put(setAlert({text: e.message, color: 'error'}))
   }
 }
 
 function* forget(action) {
   try {
     const user = yield call(forgetAPI, action.payload)
-    // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    yield put(setAlert({text: user.message, color: 'success'}))
   } catch (e) {
-    console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+   
+    yield put(setAlert({text: e.message, color: 'error'}))
   }
 }
 
@@ -45,9 +47,10 @@ function* logout(action) {
   try {
     const user = yield call(logoutAPI)
     yield put(loggeduserReqwest())
+    yield put(setAlert({text: user.message, color: 'success'}))
   } catch (e) {
-    console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+  
+    yield put(setAlert({text: e.message, color: 'error'}))
   }
 }
 

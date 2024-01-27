@@ -10,21 +10,26 @@ import { Provider } from 'react-redux';
 import { Store } from '@mui/icons-material';
 import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react'
+import Alert from './component/Alert/Alert';
+import { SnackbarProvider } from 'notistack';
 
 
 
 function App() {
-  
+
   return (
     <>
-      <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Routes>
-          <Route exact path="/*" element={<Userroutes />} />
-          <Route exact path="/admin/*" element={<Adminroutes />} />
-        </Routes>
-        </PersistGate>
-      </Provider>
+      <SnackbarProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Alert />
+            <Routes>
+              <Route exact path="/*" element={<Userroutes />} />
+              <Route exact path="/admin/*" element={<Adminroutes />} />
+            </Routes>
+          </PersistGate>
+        </Provider>
+      </SnackbarProvider>
 
     </>
   );
